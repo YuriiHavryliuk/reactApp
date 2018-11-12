@@ -1,27 +1,46 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { PureComponent } from 'react';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+class App extends PureComponent {
+  state = {
+    time: new Date(),
+  };
+
+  timeInterval: IntervalID;
+
+  componentDidMount() {
+    this.timeInterval = setInterval(() =>
+    this.setState({time: new Date(), }), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timeInterval);
+  }
+
+    render() {
+      const { time } = this.state;
+      let session = 'AM';
+      let hours = time.getHours(),
+          minutes = time.getMinutes(),
+          seconds = time.getSeconds();
+
+      if ( hours === 0) {
+          hours = 12;
+      }
+
+      if ( hours > 12) {
+          hours = hours - 12;
+          session = 'PM';
+      }
+
+       seconds = seconds < 10 ? '0' + seconds : seconds;
+       hours = hours < 10 ? '0' + hours : hours;
+       minutes = minutes < 10 ? '0' + minutes : minutes;
+
+      return (
+
+        <div className="timer">{hours}:{minutes}:{seconds} <span className="session">{session}</span></div>
+      )
   }
 }
 
