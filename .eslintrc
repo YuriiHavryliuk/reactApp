@@ -1,0 +1,135 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "defaultParams": true
+    }
+  },
+  "plugins": ["flowtype", "prettier"],
+
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js",
+        "**/__mocks__/**"
+      ],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "react/no-multi-comp": "off"
+      }
+    },
+    {
+      "files": [
+        "server/**/*.js",
+        "internal/**/*.js"
+      ],
+      "env": {
+        "node": true
+      }
+    }
+  ],
+
+  "rules": {
+    "prettier/prettier": "warn",
+    "no-param-reassign": "off",
+    // `consistent-return` is disabled to simplify workflow with promise chaining.
+    // the flow-type will keep our return values safe, when they must be consistent
+    // @see fc-app/merge_requests/2#note_63418
+    "consistent-return": "off",
+    "no-unused-expressions": "off", // disabled in favor of flowtype/no-unused-expressions, which supports type cast expressions
+    "no-plusplus": "off", // allow increment operators
+    "class-methods-use-this": "off", // allow class methods without `this` usage
+    "prefer-promise-reject-errors": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "valid-jsdoc": [
+      "warn",
+      {
+        "requireParamDescription": false,
+        "requireReturn": false,
+        "requireReturnDescription": false,
+        "prefer": {
+          "returns": "return"
+        },
+        "preferType": {
+          "String": "string",
+          "object": "Object",
+          "Number": "number",
+          "function": "Function",
+          "bool": "boolean"
+        }
+      }
+    ],
+
+    // allow the functions to be defined in the end of file
+    "no-use-before-define": ["error", { "functions": false }],
+
+    // ensure, that we won't use some of the globals, that are not
+    // allowed in our environment, e.g. global `event` var from IE
+    // or global localStorage, because we have our own wrappers
+    "no-restricted-globals": [
+      "error",
+      "localStorage",
+      "sessionStorage", // we have our own localStorage module
+      "top",
+      "event"
+    ],
+
+    "lines-between-class-members": ["error", "always", {
+      "exceptAfterSingleLine": true
+    }],
+
+    // the following will handle flow for us
+    "import/no-unresolved": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "import/extensions": "off",
+    "import/no-named-as-default": "off",
+    "import/no-cycle": "off",
+
+    "react/no-unescaped-entities": "off",
+    "react/require-default-props": "off", // we will trust the flow
+    "react/prop-types": "off", // using flow-type for this
+    // A jsx extension is not required for files containing jsx
+    "react/jsx-filename-extension": "off",
+    // This rule struggles with flow and class properties
+    "react/sort-comp": "off",
+    "react/button-has-type": "off",
+    "react/forbid-prop-types": "off",
+    // disabled, because it's too agressive. It does not allow to
+    // perform a method call from props. Even if it is outside of render fn
+    "react/destructuring-assignment": "off",
+
+    "flowtype/no-unused-expressions": ["error", {
+      "allowShortCircuit": true,
+      "allowTernary": true
+    }],
+
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/anchor-is-valid": "off"
+  }
+}
