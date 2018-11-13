@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
-import './App.css';
 
 class App extends PureComponent {
-  state = {
-    time: new Date(),
-  };
+  constructor() {
+    super();
+    this.state = {
+      time: new Date(),
+    };
+  }
 
-  timeInterval: IntervalID;
+  // timeInterval: IntervalID;
 
   componentDidMount() {
     this.timeInterval = setInterval(
