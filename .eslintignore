@@ -1,4 +1,1 @@
 node_modules/
-build/
-flow-typed/
-internal/babel-plugin-react-intl
