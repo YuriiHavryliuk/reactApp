@@ -10,7 +10,13 @@ const cssnano = require('cssnano');
 const argvs = require('yargs').argv;
 
 const config = {
-  'feature-detects': ['input', 'canvas', 'css/resize'],
+  options: ['setClasses'],
+  'feature-detects': [
+    'test/css/flexbox',
+    'test/css/flexboxlegacy',
+    'test/css/flexboxtweener',
+    'test/css/flexwrap',
+  ],
 };
 
 const isDevelopment = argvs.mode === 'development';
@@ -87,10 +93,13 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin('dist', {}),
     new webpack.HotModuleReplacementPlugin(),
+
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: 'index.html',
     }),
+    new ModernizrWebpackPlugin(config),
+
     new MiniCssExtractPlugin({
       filename: isDevelopment ? 'style.css' : 'style.min.css',
     }),
@@ -100,7 +109,6 @@ module.exports = {
         to: 'images/',
       },
     ]),
-    new ModernizrWebpackPlugin(config),
   ],
   optimization: isProduction
     ? {
